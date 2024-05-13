@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3>liste des patients</h3>
+<form th:action="${indexe}">
+    <label>key word</label>
+    <input type="text" name="keyword">
+    <button type="submit">chercher</button>
+
+</form>
+<table>
+    <thead>
+    <th>ID</th><th>nom</th><th>prenom</th>
+    </thead>
+    <tbody>
+    <tr th:each="p:${listPatients}">
+        <td th:text="${p.id}"></td>
+        <td th:text="${p.nom}"></td>
+        <td th:text="${p.prenom}"></td>
+    </tr>
+
+    </tbody>
+
+</table>
+</body>
+</html>

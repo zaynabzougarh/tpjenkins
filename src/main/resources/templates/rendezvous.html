@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>MedConnect -Inscrivez-vous</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Icône de la page -->
+    <link rel="icon" type="image/png" href="assets/img/pharmacie.png"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+    <style>
+        .custom-btn {
+            background-color: #00ADB3; /* Changez la couleur de fond selon vos préférences */
+            border-color: #00ADB3; /* Changez la couleur de la bordure si nécessaire */
+        }
+        .custom-btn:hover {
+            background-color: #005761; /* Changez la couleur de fond selon vos préférences */
+            border-color: #005761; /* Changez la couleur de la bordure si nécessaire */
+        }
+        .btn-register {
+            border-radius: 7px; /* Bordures adoucies */
+            box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2); /* Ombre */
+            transition: all 0.3s ease; /* Effet de transition */
+        }
+
+        .btn-register:hover {
+            transform: translateY(-2px); /* Effet de léger soulèvement */
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3); /* Renforcer l'ombre au survol */
+        }
+        /* Styles personnalisés pour les champs de saisie */
+        .form-outline {
+            position: relative; /* Pour positionner les icônes à l'intérieur */
+            margin-bottom: 1rem;
+        }
+
+        .form-icon {
+            position: absolute;
+            top: 30%;
+            left: 1rem;
+            transform: translateY(-30%);
+            color: #ced4da; /* Couleur de l'icône */
+        }
+
+        .form-control {
+            border-radius: 30px;
+            padding-left: 3rem;
+            margin-bottom: 0.5rem; /* Marge inférieure réduite */
+        }
+        .form-control:focus {
+            border-color: #00ADB3; /* Changez la couleur de la bordure au focus */
+            box-shadow: 0 0 0 0.25rem rgba(0, 173, 179, 0.25); /* Changez la couleur et l'intensité de l'ombre au focus */
+        }
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #eee; /* Définir la couleur de fond souhaitée */
+        }
+        .error-message {
+            color: red;
+            font-size: 0.8rem;
+            margin-top: 0.2rem;
+        }
+        .popup{
+          background: rgba(0, 0, 0, 0.6);
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          display: none;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+        }
+        .content_popup{
+          height: 250px;
+          width: 500px;
+          background: #fff;
+          padding: 20px;
+          border-radius: 5px;
+          position: relative;
+        }
+        .close{
+          position: absolute;
+          top: -15px;
+          right: -15px;
+          height: 20px;
+          background: #fff;
+          width: 20px;
+          border-radius: 50%;
+          cursor: pointer;
+
+        }
+    </style>
+</head>
+<body>
+<section class="h-100">
+    <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-10 col-xl-11">
+                <div class="card text-black" style="border-radius: 25px;">
+                    <div class="card-body p-md-4">
+                        <div class="row justify-content-center">
+                            <div class="col-md-10 col-lg-6 col-xl-6 order-2 order-lg-1">
+                                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4" style="color: #005761;">Rendez_vous</p>
+                                <form class="mx-1 mx-md-4" action="/api/docteurs" method="get" id="registrationForm" onsubmit="return validateForm()">
+                                    <!-- Row 1 -->
+                                    <div class="row mb-3">
+                                        <div class="col">
+                                            <div class="form-outline">
+                                                <i class="fas fa-user fa-lg form-icon"></i>
+                                                <input type="text" id="login" name="login" class="form-control" placeholder="Login" >
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-outline">
+                                                <i class="fas fa-address-card fa-lg form-icon"></i>
+                                                <input type="text" id="CIN" name="CIN" class="form-control" placeholder="CIN" >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Row 2 -->
+
+                                    <!-- Row 3 -->
+                                    <div class="row mb-3">
+                                        <div class="col">
+                                            <div class="form-outline">
+                                                <i class="fas fa-user fa-lg form-icon"></i>
+                                                <input type="text" id="nom" name="Nom" class="form-control" placeholder="Nom" >
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-outline">
+                                                <i class="fas fa-user fa-lg form-icon"></i>
+                                                <input type="text" id="prenom" name="Prenom" class="form-control" placeholder="Prenom" >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Row 4 -->
+                                    <div class="row mb-3">
+                                        <div class="col">
+                                            <label class="form-label" style="font-weight: bold; color: #635f5f;">Sexe:</label>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="Sexe" id="homme" value="homme" >
+                                                <label class="form-check-label" for="homme">Homme</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="Sexe" id="femme" value="femme" >
+                                                <label class="form-check-label" for="femme">Femme</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Row 5 -->
+                                    <div class="row mb-3">
+                                        <div class="col">
+                                            <div class="form-outline">
+                                                <i class="fas fa-address-card fa-lg form-icon"></i>
+                                                <input type="text" id="address" name="address" class="form-control" placeholder="Adresse" >
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-outline">
+                                                <i class="fas fa-phone fa-lg form-icon"></i>
+                                                <input type="text" id="telephone" name="tel" class="form-control" placeholder="Téléphone" >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col">
+                                            <div class="form-outline">
+                                                <i class="fas fa-calendar-alt fa-lg form-icon"></i>
+                                                <input type="date" id="birthdate" name="dat_naiss" class="form-control" >
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Row 6 -->
+                                    <div class="row mb-3">
+                                        <div class="col">
+                                            <div class="form-outline">
+                                                <i class="fas fa-user fa-lg form-icon"></i>
+                                                <select id="docteur" name="docteur" class="form-control">
+                                                    <option value="">Choisissez un docteur</option>
+                                                    <option th:each="docteur : ${docteurs}" th:value="${docteur.id_docteur}" th:text="${docteur.nom}"></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-outline">
+                                                <i class="fas fa-user fa-lg form-icon"></i>
+                                                <input type="text" id="specialite" name="specialite" class="form-control" placeholder="Spécialité" readonly>
+                                                <input type="hidden" id="docteurId" name="id_docteur" value="">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Row 6 -->
+                                    <div class="row mb-3">
+                                        <div class="col">
+                                            <div class="form-outline">
+                                                <i class="fas fa-calendar-alt fa-lg form-icon"></i>
+                                                <input  id="date-dispo" name="date_RDV"  class="form-control" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3 justify-content-center"> <!-- Ajout de la classe justify-content-center -->
+                                        <div class="col">
+                                            <div class="form-outline position-relative">
+                                                <i class="fas fa-clock fa-lg form-icon"></i>
+                                                <input type="time" id="heure_consultation" name="heure_consultation" class="form-control">
+                                                <p id="heure_affichee"></p>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Register Button -->
+                                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                                        <button type="submit"  class="btn btn-primary btn-lg btn-register custom-btn" id="button">Valider </button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-10 col-lg-6 col-xl-6 d-flex align-items-center order-1 order-lg-2">
+                                <img src="assets/img/rdv.jpg" class="img-fluid" alt="Sample image">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<<div class="popup">
+    <div class="content_popup">
+        <img src="assets/img/cancel.png" class="close">
+        <img src="assets/img/valid1.png" alt="">
+        <h1>Inscription Réussite <style> h1 {
+            color:#17E517;
+        }</style></h1>
+        <p> Vos informations ont été enregistrées avec succès! </p>
+    </div>
+
+</div>>
+
+</body>
+
+
+
+<script>
+    $(document).ready(function() {
+    $('#docteur').change(function() {
+        var selectedId = $(this).val();
+        $('#docteurId').val(selectedId); // Mettre à jour la valeur du champ caché avec l'ID du docteur sélectionné
+        console.log("ID du docteur sélectionné :", selectedId); // Afficher l'ID du docteur sélectionné dans la console
+        // Autres actions que vous devez effectuer lorsque le docteur est sélectionné...
+    });
+});
+    $(document).ready(function() {
+        $('#docteur').change(function() {
+            var selectedId = $(this).val();
+            if (selectedId !== "") {
+                $.ajax({
+                    url: '/docteur/' + selectedId + '/specialite',
+                    type: 'GET',
+                    success: function(data) {
+                        $('#specialite').val(data);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            } else {
+                $('#specialite').val("");
+            }
+        });
+    });
+     $(document).ready(function() {
+        $('#docteur').change(function() {
+            var selectedId = $(this).val();
+            if (selectedId !== "") {
+                $.ajax({
+                    url: '/docteur/' + selectedId + '/dates-dispo',
+                    type: 'GET',
+                    success: function(data) {
+                        if (data.length > 0) {
+                            var dateDispo = data[0]; // Sélectionner la première date de disponibilité
+                            $('#date-dispo').val(dateDispo);
+                        } else {
+                            $('#date-dispo').val(""); // Aucune date disponible
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            } else {
+                $('#date-dispo').val(""); // Réinitialiser le champ si aucun docteur n'est sélectionné
+            }
+        });
+    });
+    $('#docteur').change(function() {
+    var selectedId = $(this).val();
+    if (selectedId !== "") {
+        $.ajax({
+            url: '/docteur/' + selectedId + '/horaires',
+            type: 'GET',
+            success: function(data) {
+                if (data.length > 0) {
+                    var intervalleDispo = ""; // Initialiser une chaîne vide pour stocker l'intervalle de disponibilité
+                    for (var i = 0; i < data.length; i += 2) { // Parcourir les données par pas de deux
+                        var heureDebut = data[i];
+                        var heureFin = data[i + 1];
+                        intervalleDispo += "Disponible de " + heureDebut + " à " + heureFin + "<br>"; // Construire la chaîne d'intervalle de disponibilité
+                    }
+                    $('#heure_affichee').html(intervalleDispo); // Mettre à jour le contenu de l'élément HTML avec l'intervalle de disponibilité
+                } else {
+                    $('#heure_affichee').html("Aucune disponibilité pour ce docteur."); // Message lorsque aucun horaire disponible n'est renvoyé
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    } else {
+        $('#heure_affichee').html(""); // Réinitialiser le contenu de l'élément HTML lorsque aucun docteur n'est sélectionné
+    }
+});
+
+     document.getElementById("button").addEventListener("click", function(event) {
+        // Empêcher le comportement par défaut du bouton de soumission
+        event.preventDefault();
+
+        // Valider le formulaire
+        if (validateForm()) {
+            // Afficher le popup
+            document.querySelector(".popup").style.display = "flex";
+
+            // Soumettre le formulaire après un court délai pour laisser le temps au popup de s'afficher
+            setTimeout(function() {
+                document.getElementById("registrationForm").submit();
+            }, 6000); // Vous pouvez ajuster la durée du délai selon vos besoins
+        }
+    });
+
+    function validateForm() {
+    // Réinitialiser les messages d'erreur
+    document.querySelectorAll('.error-message').forEach(function(element) {
+        element.textContent = '';
+    });
+
+    var inputs = document.querySelectorAll('input'); // Sélectionner tous les champs input
+    var select = document.getElementById('docteur'); // Sélectionner le champ select
+
+    var isValid = true;
+
+    inputs.forEach(function(input) {
+        if (input.value.trim() === '') { // Vérifier si la valeur du champ est vide après suppression des espaces
+            input.classList.add('is-invalid'); // Ajouter la classe "is-invalid" pour rendre la bordure en rouge
+            var errorMessage = document.createElement('div');
+            errorMessage.textContent = 'Ce champ est requis'; // Message d'erreur
+            errorMessage.classList.add('error-message'); // Ajouter la classe pour le style du message
+            input.parentNode.appendChild(errorMessage); // Ajouter le message en dessous du champ
+            isValid = false;
+        } else {
+            input.classList.remove('is-invalid'); // Retirer la classe "is-invalid" si le champ n'est pas vide
+        }
+    });
+
+    if (select.value === '') { // Vérifier si aucune option n'est sélectionnée dans le champ select
+        select.classList.add('is-invalid'); // Ajouter la classe "is-invalid" pour rendre la bordure en rouge
+        var selectErrorMessage = document.createElement('div');
+        selectErrorMessage.textContent = 'Ce champ est requis'; // Message d'erreur
+        selectErrorMessage.classList.add('error-message'); // Ajouter la classe pour le style du message
+        select.parentNode.appendChild(selectErrorMessage); // Ajouter le message en dessous du champ select
+        isValid = false;
+    } else {
+        select.classList.remove('is-invalid'); // Retirer la classe "is-invalid" si une option est sélectionnée
+    }
+
+    // Retourner true si le formulaire est valide, sinon false
+    return isValid;
+}
+    document.querySelector(".close").addEventListener("click", function() {
+        document.querySelector(".popup").style.display = "none"; // Cacher le popup lorsque l'icône de fermeture est cliquée
+    });
+
+</script>
+
+</html>
